@@ -7,9 +7,42 @@
   "author": "Ryan Kennedy <me@ryaninvents.com>",
   "main": "src/index.js",
   "scripts": {
+    "build": "npm-run-all build:pkg",
+    "build:pkg": "pack build",
     "lint": "eslint 'src/**/*.js'",
     "pretest": "npm run -s lint",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "babel": {
+    "plugins": [
+      "macros"
+    ],
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          },
+          "modules": false
+        }
+      ]
+    ],
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": {
+                "node": 8
+              },
+              "modules": "cjs"
+            }
+          ]
+        ]
+      }
+    }
   },
   "prettier": {
     "arrowParens": "always",
@@ -41,18 +74,21 @@
     ],
     "rules": {
       "prettier/prettier": "error",
-      "func-names": "off"
+      "func-names": "off",
+      "valid-jsdoc": "off"
     }
   },
   "jest": {
     "roots": [
       "<rootDir>/src"
-    ]
+    ],
+    "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"]
   },
   "dependencies": {
     "babel-plugin-macros": "^2.5.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
     "@pika/pack": "^0.3.1",
     "@pika/plugin-build-node": "^0.3.14",
     "@pika/plugin-standard-pkg": "^0.3.14",
@@ -62,6 +98,9 @@
     "@semantic-release/github": "^5.2.10",
     "@semantic-release/npm": "^5.1.4",
     "@semantic-release/release-notes-generator": "^7.1.4",
+    "babel-plugin-tester": "^6.1.0",
+    "bootstrap": "^4.3.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-config-xo": "^0.25.0",

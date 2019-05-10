@@ -1,0 +1,1 @@
+Test cases covering what I originally designed this library for: using Bootstrap styles with Bootstrap-compatible packages, but preventing other loaded versions of Bootstrap from clobbering the styles I want.
